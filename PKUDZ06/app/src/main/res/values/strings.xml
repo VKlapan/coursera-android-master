@@ -8,4 +8,8 @@
     <string name="action_save">SAVE</string>
     <string name="button_district">City District</string>
     <string name="title_activity_form1">Add Item</string>
+    <string name="dialog_set_district">Choose City District</string>
+    <string name="set">Set</string>
+    <string name="cancel">Cancel</string>
+
 </resources>

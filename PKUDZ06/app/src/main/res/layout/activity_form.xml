@@ -23,12 +23,24 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_district"
-            android:id="@+id/button_district"
-            android:layout_marginBottom="10dp" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_district"
+                android:id="@+id/buttonDistrict" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:hint="Press Button to Choose District"
+                android:id="@+id/textViewDistrict" />
+        </LinearLayout>
 
         <EditText
             android:id="@+id/editTextAdr"
