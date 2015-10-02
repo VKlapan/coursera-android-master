@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">DZ06_SQLite</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_add">Add</string>
+    <string name="action_apply">Apply</string>
+    <string name="action_new">NEW</string>
+    <string name="action_save">SAVE</string>
+    <string name="button_district">City District</string>
+    <string name="title_activity_form1">Add Item</string>
+</resources>
