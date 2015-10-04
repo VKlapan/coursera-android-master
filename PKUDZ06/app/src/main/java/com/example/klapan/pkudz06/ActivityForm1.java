@@ -1,9 +1,8 @@
 package com.example.klapan.pkudz06;
 
 
-import android.content.ContentValues;
+import android.app.DialogFragment;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
@@ -15,8 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-
-public class ActivityForm1 extends ActionBarActivity {
+public class ActivityForm1 extends ActionBarActivity{
 
     EditText newAdr;
     EditText newTel;
@@ -39,11 +37,13 @@ public class ActivityForm1 extends ActionBarActivity {
         View.OnClickListener onClickListenerImg = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                takePicture();
+//                takePicture();
+                showSetDistrictDialog();
             }
         };
 
         newImg.setOnClickListener(onClickListenerImg);
+
     }
 
     public void takePicture() {
@@ -54,6 +54,12 @@ public class ActivityForm1 extends ActionBarActivity {
 
         }
     }
+
+    public void showSetDistrictDialog() {
+        DialogFragment dialog = new setDistrictDialog();
+        dialog.show(getFragmentManager(), "districts");
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

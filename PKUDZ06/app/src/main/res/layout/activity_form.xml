@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:hint="Press Button to Choose District"
+                android:hint="Press Button to Choose"
                 android:id="@+id/textViewDistrict" />
         </LinearLayout>
 

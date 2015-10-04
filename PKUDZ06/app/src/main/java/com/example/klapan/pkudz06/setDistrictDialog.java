@@ -22,7 +22,7 @@ public class setDistrictDialog extends DialogFragment {
         builder.setTitle(R.string.dialog_set_district)
                 // Specify the list array, the items to be selected by default (null for none),
                 // and the listener through which to receive callbacks when items are selected
-                .setSingleChoiceItems(districtsArray, -1,
+                .setSingleChoiceItems(districtsArray, 1,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
