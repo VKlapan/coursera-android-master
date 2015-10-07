@@ -11,16 +11,21 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-public class ActivityForm1 extends ActionBarActivity{
+public class ActivityForm1 extends ActionBarActivity implements setDistrictDialog.TakeDistrict {
 
+    Button btnDistr;
+    TextView viewTextDistr;
     EditText newAdr;
     EditText newTel;
     EditText newNote;
     ImageView newImg;
     private Bitmap preImg;
+    String newDistrict;
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -29,6 +34,8 @@ public class ActivityForm1 extends ActionBarActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
 
+        btnDistr = (Button) findViewById (R.id.btnDistrict);
+        viewTextDistr = (TextView) findViewById (R.id.textViewDistrict);
         newAdr = (EditText) findViewById (R.id.editTextAdr);
         newTel = (EditText) findViewById (R.id.editTextTel);
         newNote = (EditText) findViewById (R.id.editTextNote);
@@ -37,12 +44,19 @@ public class ActivityForm1 extends ActionBarActivity{
         View.OnClickListener onClickListenerImg = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                takePicture();
+                takePicture();
+            }
+        };
+
+        View.OnClickListener onClickListenerDistr = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 showSetDistrictDialog();
             }
         };
 
         newImg.setOnClickListener(onClickListenerImg);
+        btnDistr.setOnClickListener(onClickListenerDistr);
 
     }
 
@@ -60,6 +74,11 @@ public class ActivityForm1 extends ActionBarActivity{
         dialog.show(getFragmentManager(), "districts");
     }
 
+    @Override
+    public void takeDistrict (String district){
+        viewTextDistr.setText(district);
+        newDistrict = district;
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -88,10 +107,13 @@ public class ActivityForm1 extends ActionBarActivity{
         if (id == R.id.action_save) {
             String textAdr = newAdr.getText().toString();
             String textTel = newTel.getText().toString();
+            String textNote = newNote.getText().toString();
             Intent intent = new Intent();
             intent.putExtra("string_value_adr", textAdr);
             intent.putExtra("string_value_tel", textTel);
             intent.putExtra("bitmap_value_img", preImg);
+            intent.putExtra("string_value_dist", newDistrict);
+            intent.putExtra("string_value_note", textNote);
             setResult(RESULT_OK, intent);
             finish();
         }

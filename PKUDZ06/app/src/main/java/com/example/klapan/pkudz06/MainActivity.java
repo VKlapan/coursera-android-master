@@ -75,9 +75,11 @@ public class MainActivity extends ActionBarActivity {
                 Log.e("my_log", "error", e);}
 
             String adr = intentItem.getStringExtra("string_value_adr");
+            String note = intentItem.getStringExtra("string_value_note");
+            String dist = intentItem.getStringExtra("string_value_dist");
             String tel = intentItem.getStringExtra("string_value_tel");
 
-            AddItems ai = new AddItems(img,adr,tel);
+            AddItems ai = new AddItems(img, adr, note, dist, tel);
             Log.e("1","new AddItems");
 
             db.addAddItemsToSql(ai);

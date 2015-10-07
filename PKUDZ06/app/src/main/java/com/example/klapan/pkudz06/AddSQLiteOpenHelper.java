@@ -27,6 +27,8 @@ public class AddSQLiteOpenHelper extends SQLiteOpenHelper {
                 "CREATE TABLE " + AddItems.TABLE_NAME + " (" +
                         AddItems.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         AddItems.KEY_ADR + " TEXT, " +
+                        AddItems.KEY_NOTE + " TEXT, " +
+                        AddItems.KEY_DIST + " TEXT, " +
                         AddItems.KEY_TEL + " TEXT, " +
                         AddItems.KEY_IMG + " BLOB )";
 
@@ -40,6 +42,8 @@ public class AddSQLiteOpenHelper extends SQLiteOpenHelper {
 // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(AddItems.KEY_ADR, ai.getAdr());
+        values.put(AddItems.KEY_NOTE, ai.getNote());
+        values.put(AddItems.KEY_DIST, ai.getDist());
         values.put(AddItems.KEY_TEL, ai.getTel());
         values.put(AddItems.KEY_IMG, Util.bitmapToByteArray(ai.getImg()));
 
@@ -66,8 +70,10 @@ public class AddSQLiteOpenHelper extends SQLiteOpenHelper {
 
             ai.setId(Integer.parseInt(cursor.getString(0)));
             ai.setAdr(cursor.getString(1));
-            ai.setTel(cursor.getString(2));
-            ai.setImg(Util.byteArrayToBitmap(cursor.getBlob(3)));
+            ai.setNote(cursor.getString(2));
+            ai.setDist(cursor.getString(3));
+            ai.setTel(cursor.getString(4));
+            ai.setImg(Util.byteArrayToBitmap(cursor.getBlob(5)));
 
 
         } else {
@@ -93,8 +99,10 @@ public class AddSQLiteOpenHelper extends SQLiteOpenHelper {
                 ai = new AddItems();
                 ai.setId(Integer.parseInt(cursor.getString(0)));
                 ai.setAdr(cursor.getString(1));
-                ai.setTel(cursor.getString(2));
-                ai.setImg(Util.byteArrayToBitmap(cursor.getBlob(3)));
+                ai.setNote(cursor.getString(2));
+                ai.setDist(cursor.getString(3));
+                ai.setTel(cursor.getString(4));
+                ai.setImg(Util.byteArrayToBitmap(cursor.getBlob(5)));
                 alai.add(ai);
             } while (cursor.moveToNext());
 

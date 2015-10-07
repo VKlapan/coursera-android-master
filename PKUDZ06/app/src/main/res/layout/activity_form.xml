@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/button_district"
-                android:id="@+id/buttonDistrict" />
+                android:id="@+id/btnDistrict" />
 
             <TextView
                 android:layout_width="match_parent"

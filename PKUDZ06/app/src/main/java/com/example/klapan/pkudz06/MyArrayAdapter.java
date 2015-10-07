@@ -32,11 +32,11 @@ class MyArrayAdapter extends ArrayAdapter<AddItems> {
 
         ImageView imgView = (ImageView) rowView.findViewById(R.id.imageViewAdd);
         TextView textView1 = (TextView) rowView.findViewById(R.id.textViewAdr);
-        TextView textView2 = (TextView) rowView.findViewById(R.id.textViewTel);
+        TextView textView2 = (TextView) rowView.findViewById(R.id.textViewPar2);
 
         Bitmap itemImg = values.get(position).getImg();
         String itemAdr = values.get(position).getAdr();
-        String itemTel = values.get(position).getTel();
+        String itemPar2 = values.get(position).getDist();
 
 //        AddSQLiteOpenHelper mDb = new AddSQLiteOpenHelper(context);
 //        String itemAdr = mDb.getAddItemsFromSql(position).getAdr();
@@ -45,7 +45,7 @@ class MyArrayAdapter extends ArrayAdapter<AddItems> {
 
         imgView.setImageBitmap(itemImg);
         textView1.setText(itemAdr);
-        textView2.setText(itemTel);
+        textView2.setText(itemPar2);
 
         return rowView;
     };

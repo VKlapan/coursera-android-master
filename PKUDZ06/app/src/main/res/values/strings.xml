@@ -11,5 +11,17 @@
     <string name="dialog_set_district">Choose City District</string>
     <string name="set">Set</string>
     <string name="cancel">Cancel</string>
+    <string-array name="district_array">
+        <item>Голосіївський</item>
+        <item>Оболонський</item>
+        <item>Печерський</item>
+        <item>Подільський</item>
+        <item>Святошинський</item>
+        <item>Соломянський</item>
+        <item>Шевченківський</item>
+        <item>Дарницький</item>
+        <item>Деснянський</item>
+        <item>Дніпровський</item>
+    </string-array>
 
 </resources>
