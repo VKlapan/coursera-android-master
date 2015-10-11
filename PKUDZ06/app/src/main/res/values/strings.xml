@@ -6,8 +6,10 @@
     <string name="action_apply">Apply</string>
     <string name="action_new">NEW</string>
     <string name="action_save">SAVE</string>
+    <string name="action_close">CLOSE</string>
     <string name="button_district">City District</string>
     <string name="title_activity_form1">Add Item</string>
+    <string name="title_main_activity_fragments">View Or Edit Item</string>
     <string name="dialog_set_district">Choose City District</string>
     <string name="set">Set</string>
     <string name="cancel">Cancel</string>

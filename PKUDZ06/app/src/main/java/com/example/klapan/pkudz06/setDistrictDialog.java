@@ -21,13 +21,13 @@ public class setDistrictDialog extends DialogFragment {
         public void takeDistrict (String destrict);
     }
 
-    TakeDistrict tDistrict; //объект интерфейса
+    TakeDistrict tDistrict; //new element of interface
 
     @Override
     public void onAttach(Activity activity) {
-        super.onAttach(activity); // приатачили активити
+        super.onAttach(activity); // attach activity to fragment
         try {
-            tDistrict = (TakeDistrict) activity; // закастомили ее до интерфеса = в активити реализован метод takeDistrict
+            tDistrict = (TakeDistrict) activity; //cast activity to interface, so activity = interface with method takeDistrict
         } catch (ClassCastException ex) {
             ex.printStackTrace();
         }
@@ -50,7 +50,7 @@ public class setDistrictDialog extends DialogFragment {
                         })
                 .setPositiveButton(R.string.set, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                     tDistrict.takeDistrict(setDistrict); // выполнили метод из активити
+                     tDistrict.takeDistrict(setDistrict); // use method of activity
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

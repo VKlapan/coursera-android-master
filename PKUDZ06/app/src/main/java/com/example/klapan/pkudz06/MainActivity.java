@@ -1,6 +1,9 @@
 package com.example.klapan.pkudz06;
 
 
+import android.app.DialogFragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,6 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -39,6 +44,49 @@ public class MainActivity extends ActionBarActivity {
         myAdapter = new MyArrayAdapter(this, items);
         listItems.setAdapter(myAdapter);
 
+        AdapterView.OnItemClickListener onClickListenerListItems = new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
+                Log.e("my_log", "item click");
+
+                AddItems vi; // view Item
+                vi = db.getAddItemsFromSql(position +1);
+                Bitmap viImg = vi.getImg();
+                String viDistr = vi.getDist();
+                String viAdr = vi.getAdr();
+                String viTel = vi.getTel();
+                String viNote = vi.getNote();
+
+                Intent intent = new Intent(MainActivity.this, MainActivityFragments.class);
+
+                intent.putExtra("bitmap_value_img", viImg);
+                intent.putExtra("string_value_dist", viDistr);
+                intent.putExtra("string_value_adr", viAdr);
+                intent.putExtra("string_value_tel", viTel);
+                intent.putExtra("string_value_note", viNote);
+
+                startActivityForResult(intent, REQUEST_CODE_NEW_ADD);
+            }
+        };
+
+        listItems.setOnItemClickListener(onClickListenerListItems);
+
+        AdapterView.OnItemLongClickListener onLongClickListenerListItems = new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick (AdapterView<?> parent, View view, int position, long id) {
+                Log.e("my_log", "item long click");
+                return true;
+            }
+        };
+
+        listItems.setOnItemLongClickListener(onLongClickListenerListItems);
+
+
+    }
+
+    public void showSetDistrictDialog() {
+        DialogFragment dialog = new setDistrictDialog();
+        dialog.show(getFragmentManager(), "districts");
     }
 
     @Override

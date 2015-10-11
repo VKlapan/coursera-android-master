@@ -67,7 +67,6 @@ public class AddSQLiteOpenHelper extends SQLiteOpenHelper {
                 null);
         if  (cursor != null && cursor.moveToFirst()) {
             cursor.moveToFirst();
-
             ai.setId(Integer.parseInt(cursor.getString(0)));
             ai.setAdr(cursor.getString(1));
             ai.setNote(cursor.getString(2));

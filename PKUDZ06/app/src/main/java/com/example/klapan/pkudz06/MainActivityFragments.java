@@ -2,124 +2,62 @@ package com.example.klapan.pkudz06;
 
 
 import android.app.DialogFragment;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 
 public class MainActivityFragments extends ActionBarActivity {
 
-    private static final int REQUEST_CODE_NEW_ADD = 1;
-    private ArrayList<AddItems> items;
-    private  ListView listItems;
-    private MyArrayAdapter myAdapter;
-    private AddSQLiteOpenHelper db;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        db = new AddSQLiteOpenHelper(this);
 
-        items = db.getAllAddItemsFromSql();
+        setContentView(R.layout.activity_main_fragments);
 
-        listItems = (ListView) findViewById(R.id.listViewItems);
+        Intent intentFromMain = this.getIntent();
 
-        myAdapter = new MyArrayAdapter(this, items);
-        listItems.setAdapter(myAdapter);
+        Bitmap img = intentFromMain.getParcelableExtra("bitmap_value_img");
+        String dist = intentFromMain.getStringExtra("string_value_dist");
+        String adr = intentFromMain.getStringExtra("string_value_adr");
+        String tel = intentFromMain.getStringExtra("string_value_tel");
+        String note = intentFromMain.getStringExtra("string_value_note");
 
-        AdapterView.OnItemClickListener onClickListenerListItems = new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentItemView fragment = new FragmentItemView();
 
-                FragmentItemView fragment = new FragmentItemView();
-                fragmentTransaction.add(R.id.fragmentView, fragment);
-                fragmentTransaction.commit();
-            }
-        };
+//        FragmentItemView fragment = FragmentItemView.newInstance(dist);
 
-        listItems.setOnItemClickListener(onClickListenerListItems);
+        fragment.setFrImg(img);
+        fragment.setFrDist(dist);
+        fragment.setFrAdr(adr);
+        fragment.setFrTel(tel);
+        fragment.setFrNote(note);
 
-        AdapterView.OnItemLongClickListener onLongClickListenerListItems = new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick (AdapterView<?> parent, View view, int position, long id) {
-                Log.e("my_log", "long click");
-                return true;
-            }
-        };
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
 
-        listItems.setOnItemLongClickListener(onLongClickListenerListItems);
+//        ((ImageView) findViewById(R.id.ViewImage)).setImageBitmap(img);
+//        ((TextView) findViewById(R.id.ViewDistrict)).setText(dist);
+//        ((TextView) fragment.getActivity().findViewById(R.id.ViewAdr)).setText(adr);
+//        ((TextView) findViewById(R.id.ViewTel)).setText(tel);
+//        ((TextView) findViewById(R.id.ViewNote)).setText(note);
 
-
-    }
-
-    public void showSetDistrictDialog() {
-        DialogFragment dialog = new setDistrictDialog();
-        dialog.show(getFragmentManager(), "districts");
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_new) {
-            Intent intent = new Intent(this, ActivityForm1.class);
-            startActivityForResult(intent, REQUEST_CODE_NEW_ADD);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    protected void onActivityResult (int requestCode, int resultCode, Intent intentItem){
-
-        if (requestCode == REQUEST_CODE_NEW_ADD && resultCode == RESULT_OK){
-            Bitmap img = null;
-            try {
-                img = intentItem.getParcelableExtra("bitmap_value_img");
-            } catch (NullPointerException e){
-                Log.e("my_log", "error", e);}
-
-            String adr = intentItem.getStringExtra("string_value_adr");
-            String note = intentItem.getStringExtra("string_value_note");
-            String dist = intentItem.getStringExtra("string_value_dist");
-            String tel = intentItem.getStringExtra("string_value_tel");
-
-            AddItems ai = new AddItems(img, adr, note, dist, tel);
-            Log.e("1","new AddItems");
-
-            db.addAddItemsToSql(ai);
-            items.add(ai);
-
-            Log.e("1", "added new AddItems to SQL");
-
-            myAdapter.notifyDataSetChanged();
-        }
     }
 
 

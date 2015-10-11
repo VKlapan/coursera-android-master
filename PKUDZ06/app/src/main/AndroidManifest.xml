@@ -20,6 +20,10 @@
             android:name=".ActivityForm1"
             android:label="@string/title_activity_form1" >
         </activity>
+        <activity
+            android:name=".MainActivityFragments"
+            android:label="@string/title_main_activity_fragments" >
+        </activity>
     </application>
 
 </manifest>
