@@ -2,8 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.example.klapan.pukdz02.ActivityForm1">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +13,7 @@
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/imageViewAdd" />
+            android:id="@+id/imageItemEdit" />
     </LinearLayout>
 
     <LinearLayout
@@ -32,18 +31,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/button_district"
-                android:id="@+id/btnDistrict" />
+                android:id="@+id/btnDistrictEdit" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:hint="Press Button to Choose"
-                android:id="@+id/textViewDistrict" />
+                android:id="@+id/districtItemEdit" />
         </LinearLayout>
 
         <EditText
-            android:id="@+id/editTextAdr"
+            android:id="@+id/adrItemEdit"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
@@ -52,7 +51,7 @@
             android:inputType="textPostalAddress" />
 
         <EditText
-            android:id="@+id/editTextTel"
+            android:id="@+id/telItemEdit"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
@@ -61,7 +60,7 @@
             android:inputType="time" />
 
         <EditText
-            android:id="@+id/editTextNote"
+            android:id="@+id/noteItemEdit"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"

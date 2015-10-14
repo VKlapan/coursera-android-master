@@ -53,6 +53,24 @@ public class AddSQLiteOpenHelper extends SQLiteOpenHelper {
         newRowId = db.insert(AddItems.TABLE_NAME, null, values);
     }
 
+    public void updateAddItemsAtSql (AddItems ai){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+// Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put(AddItems.KEY_ADR, ai.getAdr());
+        values.put(AddItems.KEY_NOTE, ai.getNote());
+        values.put(AddItems.KEY_DIST, ai.getDist());
+        values.put(AddItems.KEY_TEL, ai.getTel());
+        values.put(AddItems.KEY_IMG, Util.bitmapToByteArray(ai.getImg()));
+
+
+// Insert the new row, returning the primary key value of the new row
+        int updRowId;
+        updRowId = db.update(AddItems.TABLE_NAME, values, "id=?", new String[]{String.valueOf(ai.getId())});
+    }
+
     public AddItems getAddItemsFromSql (int id){
         AddItems ai = new AddItems();
         SQLiteDatabase db = this.getReadableDatabase();

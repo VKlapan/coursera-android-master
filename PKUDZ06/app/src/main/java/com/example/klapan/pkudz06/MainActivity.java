@@ -25,6 +25,7 @@ import java.util.ArrayList;
 public class MainActivity extends ActionBarActivity {
 
     private static final int REQUEST_CODE_NEW_ADD = 1;
+    private static final int REQUEST_CODE_EDIT_ITEM = 2;
     private ArrayList<AddItems> items;
     private  ListView listItems;
     private MyArrayAdapter myAdapter;
@@ -56,6 +57,7 @@ public class MainActivity extends ActionBarActivity {
                 String viAdr = vi.getAdr();
                 String viTel = vi.getTel();
                 String viNote = vi.getNote();
+                int viId = vi.getId();
 
                 Intent intent = new Intent(MainActivity.this, MainActivityFragments.class);
 
@@ -64,8 +66,9 @@ public class MainActivity extends ActionBarActivity {
                 intent.putExtra("string_value_adr", viAdr);
                 intent.putExtra("string_value_tel", viTel);
                 intent.putExtra("string_value_note", viNote);
+                intent.putExtra("int_value_id", viId);
 
-                startActivityForResult(intent, REQUEST_CODE_NEW_ADD);
+                startActivityForResult(intent, REQUEST_CODE_EDIT_ITEM);
             }
         };
 
@@ -136,6 +139,34 @@ public class MainActivity extends ActionBarActivity {
             Log.e("1", "added new AddItems to SQL");
 
             myAdapter.notifyDataSetChanged();
+
+        } else if (requestCode == REQUEST_CODE_EDIT_ITEM && resultCode == RESULT_OK){
+
+            String flag = intentItem.getStringExtra("string_value_flag");
+
+            if (flag.equalsIgnoreCase("DELETE")){
+                Log.e("1", "DELETE Item ID " + intentItem.getIntExtra("int_value_id", 0));
+
+            } else if (flag.equalsIgnoreCase("UPDATE")){
+                Bitmap img = null;
+                try {
+                    img = intentItem.getParcelableExtra("bitmap_value_img");
+                } catch (NullPointerException e){
+                    Log.e("my_log", "error", e);}
+
+                String dist = intentItem.getStringExtra("string_value_dist");
+                String adr = intentItem.getStringExtra("string_value_adr");
+                String tel = intentItem.getStringExtra("string_value_tel");
+                String note = intentItem.getStringExtra("string_value_note");
+                int id = intentItem.getIntExtra("int_value_id", 0);
+
+                Log.e("1", "UPDATE ITEM: " + id + ". DIST: " + dist + ". ADR: " + adr + ". TEL: " + tel + ". NOTE: " + note);
+
+            } else {
+                Log.e("1", "CLOSE");
+
+            }
+
         }
     }
 

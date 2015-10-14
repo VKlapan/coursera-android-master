@@ -21,7 +21,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 
-public class MainActivityFragments extends ActionBarActivity {
+public class MainActivityFragments extends ActionBarActivity implements FragmentItemEdit.backEditedItem {
+
+    int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class MainActivityFragments extends ActionBarActivity {
         String adr = intentFromMain.getStringExtra("string_value_adr");
         String tel = intentFromMain.getStringExtra("string_value_tel");
         String note = intentFromMain.getStringExtra("string_value_note");
+        id = intentFromMain.getIntExtra("int_value_id", 0);
 
         FragmentItemView fragment = new FragmentItemView();
 
@@ -46,10 +49,12 @@ public class MainActivityFragments extends ActionBarActivity {
         fragment.setFrAdr(adr);
         fragment.setFrTel(tel);
         fragment.setFrNote(note);
+        fragment.setFrId(id);
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, fragment);
+        fragmentTransaction.addToBackStack("frView");
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
 
 //        ((ImageView) findViewById(R.id.ViewImage)).setImageBitmap(img);
@@ -60,5 +65,31 @@ public class MainActivityFragments extends ActionBarActivity {
 
     }
 
+    public void backEditedItem (String flag, Bitmap i, String d, String a, String t, String n, int id){
+        Log.e("my_log", "Back trough ActivityFragments: " + flag);
+
+        Intent intent = new Intent();
+
+
+        if (flag.equalsIgnoreCase("DELETE")){
+            intent.putExtra("string_value_flag", "delete");
+            intent.putExtra("int_value_id", id);
+
+        } else if (flag.equalsIgnoreCase("UPDATE")){
+            intent.putExtra("string_value_flag", "update");
+            intent.putExtra("string_value_adr", a);
+            intent.putExtra("string_value_tel", t);
+            intent.putExtra("bitmap_value_img", i);
+            intent.putExtra("string_value_dist", d);
+            intent.putExtra("string_value_note", n);
+            intent.putExtra("int_value_id", id);
+
+        } else {
+            intent.putExtra("string_value_flag", "close");
+        }       ;
+        setResult(RESULT_OK, intent);
+
+        finish();
+    };
 
 }
