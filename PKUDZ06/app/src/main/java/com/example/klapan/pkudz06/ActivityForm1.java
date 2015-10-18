@@ -2,8 +2,11 @@ package com.example.klapan.pkudz06;
 
 
 import android.app.DialogFragment;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -15,6 +18,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ActivityForm1 extends ActionBarActivity implements setDistrictDialog.TakeDistrict {
 
@@ -26,6 +34,7 @@ public class ActivityForm1 extends ActionBarActivity implements setDistrictDialo
     ImageView newImg;
     private Bitmap preImg;
     String newDistrict;
+    Uri fileUri;
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -48,6 +57,14 @@ public class ActivityForm1 extends ActionBarActivity implements setDistrictDialo
             }
         };
 
+        View.OnLongClickListener onLongClickListenerImg = new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick (View v) {
+                takeFullPicture();
+                return true;
+            }
+        };
+
         View.OnClickListener onClickListenerDistr = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,8 +73,24 @@ public class ActivityForm1 extends ActionBarActivity implements setDistrictDialo
         };
 
         newImg.setOnClickListener(onClickListenerImg);
+        newImg.setOnLongClickListener(onLongClickListenerImg);
         btnDistr.setOnClickListener(onClickListenerDistr);
 
+    }
+
+    public void takeFullPicture() {
+
+        Log.e("my_log", "try FULL Picture");
+
+        Intent intent = new Intent( MediaStore.ACTION_IMAGE_CAPTURE );
+
+        fileUri = getOutputMediaFileUri();
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+
+        }
     }
 
     public void takePicture() {
@@ -83,8 +116,32 @@ public class ActivityForm1 extends ActionBarActivity implements setDistrictDialo
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            preImg = data.getParcelableExtra("data");
-            newImg.setImageBitmap(preImg);
+
+            Log.e("my_log", "try onActivityResult");
+
+            String filePath = fileUri.getPath();
+            Log.e("my_log", filePath);
+            this.grabImage(newImg);
+
+//            preImg = data.getParcelableExtra("data");
+//            newImg.setImageBitmap(preImg);
+        }
+    }
+
+    public void grabImage(ImageView imageView)
+    {
+        this.getContentResolver().notifyChange(fileUri, null);
+        ContentResolver cr = this.getContentResolver();
+        Bitmap bitmap;
+        try
+        {
+            bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, fileUri);
+            imageView.setImageBitmap(bitmap);
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT).show();
+            Log.d("my_log", "Failed to load", e);
         }
     }
 
@@ -121,5 +178,36 @@ public class ActivityForm1 extends ActionBarActivity implements setDistrictDialo
         Log.e("1", "putExtra");
 
         return true;
+    }
+
+    /** Create a file Uri for saving an image or video */
+    private static Uri getOutputMediaFileUri(){
+        return Uri.fromFile(getOutputMediaFile());
+    }
+
+    /** Create a File for saving an image or video */
+    private static File getOutputMediaFile(){
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "PKUDZ06App");
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (! mediaStorageDir.exists()){
+            if (! mediaStorageDir.mkdirs()){
+                Log.d("my_log", "failed to create directory");
+                return null;
+            }
+        }
+
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                "IMG_"+ timeStamp + ".jpg");
+
+        return mediaFile;
     }
 }

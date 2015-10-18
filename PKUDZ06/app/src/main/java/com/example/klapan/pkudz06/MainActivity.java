@@ -30,6 +30,7 @@ public class MainActivity extends ActionBarActivity {
     private  ListView listItems;
     private MyArrayAdapter myAdapter;
     private AddSQLiteOpenHelper db;
+    private int editPosition;
 
 
     @Override
@@ -50,8 +51,10 @@ public class MainActivity extends ActionBarActivity {
             public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
                 Log.e("my_log", "item click");
 
+                editPosition = position;
+
                 AddItems vi; // view Item
-                vi = db.getAddItemsFromSql(position +1);
+                vi = db.getAddItemsFromSql(items.get(position).getId());
                 Bitmap viImg = vi.getImg();
                 String viDistr = vi.getDist();
                 String viAdr = vi.getAdr();
@@ -131,12 +134,14 @@ public class MainActivity extends ActionBarActivity {
             String tel = intentItem.getStringExtra("string_value_tel");
 
             AddItems ai = new AddItems(img, adr, note, dist, tel);
-            Log.e("1","new AddItems");
 
-            db.addAddItemsToSql(ai);
+            long newId = db.addAddItemsToSql(ai);
+
+            Log.e("my_log", "new AddItems ID = " + newId);
+            ai.setId((int) newId);
             items.add(ai);
 
-            Log.e("1", "added new AddItems to SQL");
+            Log.e("my_log", "added new AddItems to SQL");
 
             myAdapter.notifyDataSetChanged();
 
@@ -145,7 +150,13 @@ public class MainActivity extends ActionBarActivity {
             String flag = intentItem.getStringExtra("string_value_flag");
 
             if (flag.equalsIgnoreCase("DELETE")){
-                Log.e("1", "DELETE Item ID " + intentItem.getIntExtra("int_value_id", 0));
+                Log.e("my_log", "DELETE Item ID " + intentItem.getIntExtra("int_value_id", 0));
+
+                int id = intentItem.getIntExtra("int_value_id", 0);
+                db.deleteAddItemsFromSql(id);
+                items.remove(editPosition);
+                myAdapter.notifyDataSetChanged();
+
 
             } else if (flag.equalsIgnoreCase("UPDATE")){
                 Bitmap img = null;
@@ -160,10 +171,18 @@ public class MainActivity extends ActionBarActivity {
                 String note = intentItem.getStringExtra("string_value_note");
                 int id = intentItem.getIntExtra("int_value_id", 0);
 
-                Log.e("1", "UPDATE ITEM: " + id + ". DIST: " + dist + ". ADR: " + adr + ". TEL: " + tel + ". NOTE: " + note);
+                Log.e("my_log", "UPDATE ITEM: " + id + ". DIST: " + dist + ". ADR: " + adr + ". TEL: " + tel + ". NOTE: " + note);
+                AddItems ai = new AddItems(img, adr, note, dist, tel);
+                ai.setId(id);
+                db.updateAddItemsAtSql(ai);
+                items.remove(editPosition);
+                items.add(editPosition, ai);
+                myAdapter.notifyDataSetChanged();
+
+
 
             } else {
-                Log.e("1", "CLOSE");
+                Log.e("my_log", "CLOSE");
 
             }
 

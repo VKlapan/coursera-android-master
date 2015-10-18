@@ -48,7 +48,7 @@ public class FragmentItemView extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        Log.e("my_log", "fragment view inflater start");
+
         View frameView = (View) inflater.inflate(R.layout.fragment_view, container, false);
 
 
@@ -68,6 +68,7 @@ public class FragmentItemView extends Fragment {
 
         setHasOptionsMenu(true);
 
+        Log.e("my_log", "VIEW ITEM ID = " + frId);
         return frameView;
     }
 

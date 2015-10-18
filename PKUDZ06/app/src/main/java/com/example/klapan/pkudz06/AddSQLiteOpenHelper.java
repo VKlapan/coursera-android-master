@@ -35,7 +35,7 @@ public class AddSQLiteOpenHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_ADDITEMS_TABLE);
     }
 
-    public void addAddItemsToSql (AddItems ai){
+    public long addAddItemsToSql (AddItems ai){
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -51,6 +51,11 @@ public class AddSQLiteOpenHelper extends SQLiteOpenHelper {
 // Insert the new row, returning the primary key value of the new row
         long newRowId;
         newRowId = db.insert(AddItems.TABLE_NAME, null, values);
+
+        Log.e("my_log","NEW ITEM ID is " + newRowId);
+
+        return newRowId;
+
     }
 
     public void updateAddItemsAtSql (AddItems ai){
@@ -69,6 +74,14 @@ public class AddSQLiteOpenHelper extends SQLiteOpenHelper {
 // Insert the new row, returning the primary key value of the new row
         int updRowId;
         updRowId = db.update(AddItems.TABLE_NAME, values, "id=?", new String[]{String.valueOf(ai.getId())});
+        Log.e("my_log","Item's ROW to UPDATE was " + updRowId);
+    }
+
+    public void deleteAddItemsFromSql(int id) {
+
+        SQLiteDatabase writableDatabase = getWritableDatabase();
+        writableDatabase.delete(AddItems.TABLE_NAME, AddItems.KEY_ID + " = ?", new String[]{String.valueOf(id)});
+
     }
 
     public AddItems getAddItemsFromSql (int id){
@@ -94,7 +107,7 @@ public class AddSQLiteOpenHelper extends SQLiteOpenHelper {
 
 
         } else {
-            Log.e("1","CursorWrong2");
+            Log.e("my_log","CursorWrong GET Item");
         }
         return ai;
     }
@@ -124,7 +137,7 @@ public class AddSQLiteOpenHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
 
         }else {
-            Log.e("1","CursorWrong");
+            Log.e("my_log","CursorWrong GET ALL Item");
         }
         return alai;
     }
